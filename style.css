@@ -148,6 +148,7 @@ a:active {
   max-width: 95%;
   width: 500px;
   animation: modalopen 1s;
+  border-radius: 10%;
 }
 
 @keyframes modalopen {
@@ -183,6 +184,7 @@ h3 {
 .modal-content {
   padding: 20px;
   background: whitesmoke;
+  height: 200px;
 }
 
 /* Form */

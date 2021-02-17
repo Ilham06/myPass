@@ -44,8 +44,9 @@ function buildBookmarks() {
     const item = document.createElement('div');
     item.classList.add('item');
     
-    const closeIcon = document.createElement('i');
-    closeIcon.classList.add('fas', 'fa-times');
+    const closeIcon = document.createElement('span');
+    // closeIcon.classList.add('fas', 'fa-times');
+    closeIcon.textContent = 'X';
     closeIcon.setAttribute('onclick', `deleteBookmark('${name}')`);
     
     const linkInfo = document.createElement('div');
@@ -62,6 +63,7 @@ function buildBookmarks() {
     linkInfo.append(link);
     item.append(closeIcon, linkInfo, btn);
     dataContainer.appendChild(item);
+
   });
 }
 
@@ -103,6 +105,11 @@ function storeBookmark(e) {
   e.preventDefault();
   const pageValue = inputPage.value;
   const pwValue = inputPassword.value;
+
+  if (pageValue === "" || pwValue === "" ) {
+    alert('Please input form!');
+    return false;
+  }
   
   const bookmark = {
     name: pageValue,
@@ -111,6 +118,8 @@ function storeBookmark(e) {
   bookmarks.push(bookmark);
   
   localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+  alert('ok!');
+  modalBox.classList.remove('show-modal');
   fetchBookmarks();
   inputForm.reset();
   inputPage.focus();
