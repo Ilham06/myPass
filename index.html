@@ -9,10 +9,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Modal Button -->
-    <h2 id="show-modal"><i class="fas fa-plus"></i>New Link</h2>
+    <!-- Top -->
+    <div class="top">
+        <h1>My Pass</h1>
+        <p>Create and save your password for easy</p>
+        <button class="new" id="show-modal">Create New</button>
+    </div>
+
     <!-- Data Container -->
-    <div class="container" id="bookmarks-container"></div>
+    <div class="container" id="data-container">
+        
+    </div>
+
     <!-- Modal -->
     <div class="modal-container" id="modal">
         <div class="modal">
@@ -21,13 +29,13 @@
                 <h3>Craete Your Password</h3>
             </div>
             <div class="modal-content">
-                <form id="bookmark-form">
+                <form id="page-form">
                     <!-- Page Name -->
                     <div class="form-group">
                         <label class="form-label" for="page-name">Password For</label>
-                        <input class="form-input" type="text" id="page-name" autocomplete="off">                      
+                        <input class="form-input" type="text" id="page-name">                      
                         <p>You can generate random pasword with click the generte password, or create your own password with type the password in form bellow.</p>
-                        <input class="form-input" type="disable" id="page-password" autocomplete="off">          
+                        <input class="form-input" id="page-password">         
                     <button type="button" id="generate">Generate</button>
                     <button type="submit">Save</button>
                     </div>

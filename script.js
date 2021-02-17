@@ -1,17 +1,16 @@
+// Get Element
 const modalBox = document.getElementById('modal');
 const showModalBox = document.getElementById('show-modal');
 const closeModalButton = document.getElementById('close-modal');
-const inputForm = document.getElementById('bookmark-form');
+const inputForm = document.getElementById('page-form');
 const inputPage = document.getElementById('page-name');
 const inputPassword = document.getElementById('page-password');
-const dataContainer = document.getElementById('bookmarks-container');
+const dataContainer = document.getElementById('data-container');
 
-let bookmarks = [];
+let datum = [];
 
-
-
-// Generate Randem Password
-let chars = "abcdefghijklmnopqrstuvwxyz";
+// Generate randem password
+let chars = "1234567890~`!@#$%^&*()_+=-qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM[]{};':?><.,/";
 const generate = document.getElementById('generate');
 generate.addEventListener('click', function() {
   let i;
@@ -25,7 +24,7 @@ generate.addEventListener('click', function() {
 })
 
 
-
+// Show modal
 function showModal() {
   modalBox.classList.add('show-modal');
   inputPage.focus();
@@ -36,73 +35,78 @@ closeModalButton.addEventListener('click', () => modal.classList.remove('show-mo
 
 
 // Create Element For New Data
-function buildBookmarks() {
+function createData() {
   dataContainer.textContent = '';
   // Create new data
-  bookmarks.forEach((bookmark) => {
-    const {name, pw} = bookmark;
+  datum.forEach((data) => {
+    const {name, pw} = data;
     const item = document.createElement('div');
     item.classList.add('item');
+
+    // Create page name
+    const nameWrapper = document.createElement('div');
+    nameWrapper.classList.add('name');
+    const pageName = document.createElement('h3');
+    pageName.textContent = name;
+    nameWrapper.append(pageName);
     
-    const closeIcon = document.createElement('span');
-    // closeIcon.classList.add('fas', 'fa-times');
-    closeIcon.textContent = 'X';
-    closeIcon.setAttribute('onclick', `deleteBookmark('${name}')`);
+    // Create delete button
+    const dlButton = document.createElement('i');
+    dlButton.classList.add('fa', 'fa-trash');
+    dlButton.setAttribute('onclick', `deleteData('${name}')`);
     
-    const linkInfo = document.createElement('div');
-    linkInfo.classList.add('name');
+    // Create detail button
+    const dtButton = document.createElement('button');
+    dtButton.textContent = 'details';
+    dtButton.setAttribute('onclick', `detail('${name}','${pw}')`);
     
-    const btn = document.createElement('button');
-    btn.textContent = 'details';
-    btn.setAttribute('onclick', `details('${name}','${pw}')`);
     
-    const link = document.createElement('h3');
-    link.textContent = name;
-    
-    // Append to bookmarks container
-    linkInfo.append(link);
-    item.append(closeIcon, linkInfo, btn);
+    item.append(dlButton, nameWrapper, dtButton);
     dataContainer.appendChild(item);
 
   });
 }
 
-// details functions
-function details(name,pw) {
-  console.log(name);
-      alert(`Your password for ${name} is ${pw}.`);
+// Show detail
+function detail(name,pw) {
+      alert(`Your Password for ${name} page is ${pw}`);
 }
 
-// Fetch Data
-function fetchBookmarks() {
+// Get and Set data
+function getAndSet() {
   // Get data from local storage
-  if (localStorage.getItem('bookmarks')) {
-    bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+  if (localStorage.getItem('datum')) {
+    datum = JSON.parse(localStorage.getItem('datum'));
   } else {
-    // Create bookmarks array in localStorage
-    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    // Set data to local storage
+    localStorage.setItem('datas', JSON.stringify(datum));
     }
-  buildBookmarks();
+  createData();
 }
 
-// Delete Bookmark
-function deleteBookmark(name) {
-  // Loop through the bookmarks array
-  bookmarks.forEach((bookmark, i) => {
-    if (bookmark.name === name) {
-      bookmarks.splice(i, 1);
+// Delete data
+function deleteData(name) {
+  let c = confirm(`Are you sure to delete data for ${name} page?`);
+  // Check the deleted page name
+  if (c !== true) {
+    return false;
+  } else datum.forEach((data, i) => {
+    if (data.name === name) {
+      datum.splice(i, 1);
     }
   });
-  // Update bookmarks array in localStorage, re-populate DOM
-  localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
-  fetchBookmarks();
-  alert('Data Has Been Deleted');
+
+  // Update data
+  localStorage.setItem('datum', JSON.stringify(datum));
+  getAndSet();
+  alert(`OK!, ${name} data has been deleted`);
 }
 
 
 // Add New Data
-function storeBookmark(e) {
+function saveData(e) {
   e.preventDefault();
+
   const pageValue = inputPage.value;
   const pwValue = inputPassword.value;
 
@@ -111,25 +115,22 @@ function storeBookmark(e) {
     return false;
   }
   
-  const bookmark = {
+  const data = {
     name: pageValue,
     pw: pwValue,
   };
-  bookmarks.push(bookmark);
+  datum.push(data);
   
-  localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
-  alert('ok!');
+  localStorage.setItem('datum', JSON.stringify(datum));
+  alert(`OK!, ${pageValue} data has been added.`);
   modalBox.classList.remove('show-modal');
-  fetchBookmarks();
+  getAndSet();
   inputForm.reset();
-  inputPage.focus();
 }
 
-// Event Listener
-inputForm.addEventListener('submit', storeBookmark);
 
-// On Load, Fetch Bookmarks
-fetchBookmarks();
+inputForm.addEventListener('submit', saveData);
+getAndSet();
 
 
 
