@@ -39,7 +39,10 @@ function createData() {
   dataContainer.textContent = '';
   // Create new data
   datum.forEach((data) => {
-    const {name, pw} = data;
+    const {
+      name,
+      pw
+    } = data;
     const item = document.createElement('div');
     item.classList.add('item');
 
@@ -49,18 +52,18 @@ function createData() {
     const pageName = document.createElement('h3');
     pageName.textContent = name;
     nameWrapper.append(pageName);
-    
+
     // Create delete button
     const dlButton = document.createElement('i');
     dlButton.classList.add('fa', 'fa-trash');
     dlButton.setAttribute('onclick', `deleteData('${name}')`);
-    
+
     // Create detail button
     const dtButton = document.createElement('button');
     dtButton.textContent = 'details';
     dtButton.setAttribute('onclick', `detail('${name}','${pw}')`);
-    
-    
+
+
     item.append(dlButton, nameWrapper, dtButton);
     dataContainer.appendChild(item);
 
@@ -68,8 +71,8 @@ function createData() {
 }
 
 // Show detail
-function detail(name,pw) {
-      alert(`Your Password for ${name} page is ${pw}`);
+function detail(name, pw) {
+  alert(`Your Password for ${name} page is ${pw}`);
 }
 
 // Get and Set data
@@ -80,7 +83,7 @@ function getAndSet() {
   } else {
     // Set data to local storage
     localStorage.setItem('datas', JSON.stringify(datum));
-    }
+  }
   createData();
 }
 
@@ -110,17 +113,17 @@ function saveData(e) {
   const pageValue = inputPage.value;
   const pwValue = inputPassword.value;
 
-  if (pageValue === "" || pwValue === "" ) {
+  if (pageValue === "" || pwValue === "") {
     alert('Please input form!');
     return false;
   }
-  
+
   const data = {
     name: pageValue,
     pw: pwValue,
   };
   datum.push(data);
-  
+
   localStorage.setItem('datum', JSON.stringify(datum));
   alert(`OK!, ${pageValue} data has been added.`);
   modalBox.classList.remove('show-modal');
@@ -131,6 +134,3 @@ function saveData(e) {
 
 inputForm.addEventListener('submit', saveData);
 getAndSet();
-
-
-
