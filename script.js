@@ -114,7 +114,7 @@ function saveData(e) {
   const pwValue = inputPassword.value;
 
   if (pageValue === "" || pwValue === "") {
-    alert('Please input form!');
+    alert('Please fill in the input form!');
     return false;
   }
 
